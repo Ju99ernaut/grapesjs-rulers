@@ -1,0 +1,28 @@
+{
+  "name": "grapesjs-rulers",
+  "version": "1.0.0",
+  "description": "Grapesjs Rulers",
+  "main": "dist/grapesjs-rulers.min.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Ju99ernaut/grapesjs-rulers.git"
+  },
+  "scripts": {
+    "start": "grapesjs-cli serve",
+    "build": "grapesjs-cli build",
+    "build:css": "node-sass src/styles.scss dist/grapesjs-rulers.min.css --output-style compressed",
+    "bump": "npm version patch -m 'Bump v%s'"
+  },
+  "keywords": [
+    "grapesjs",
+    "plugin",
+    "rulers",
+    "designer"
+  ],
+  "devDependencies": {
+    "grapesjs-cli": "^1.0.13",
+    "node-sass": "^4.14.1"
+  },
+  "author": "Brendon Ngirazi",
+  "license": "MIT"
+}
