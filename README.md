@@ -4,7 +4,7 @@ Add rulers and guides for `grapesjs` designer mode
 
 ![Screenshot](https://i.imgur.com/3UA8t1E.png)
 
-[DEMO](https://codepen.io/ju99ernaut/pen/Vwaqdpw)
+[DEMO](https://codepen.io/ju99ernaut/pen/NWNEWpV)
 
 ### HTML
 ```html
