@@ -44,8 +44,8 @@ body, html {
     * `guides-visibility` - toggle guides visibility
     * `clear-guides`
     * `get-guides` - get array of guides
-    * `set-guides` - set guides from array eg `editor.runCommand('set-guides', {guides: [...]})`
-    * `set-zoom` - sets zoom and updates rulers eg `editor.runCommand('set-zoom', {zoom: 90})`
+    * `set-guides` - set guides from array e.g. `editor.runCommand('set-guides', {guides: [...]})`
+    * `set-zoom` - sets zoom and updates rulers e.g. `editor.runCommand('set-zoom', {zoom: 90})`
     * `destroy-ruler`
 
 
