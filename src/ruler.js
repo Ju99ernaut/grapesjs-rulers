@@ -13,6 +13,8 @@ ruler.prototype.builder = function () {
     HORIZONTAL = 2,
     CUR_DELTA_X = 0,
     CUR_DELTA_Y = 0,
+    SCROLL_X = 0,
+    SCROLL_Y = 0,
     CUR_SCALE = 1;
 
   let options,
@@ -103,10 +105,10 @@ ruler.prototype.builder = function () {
     guide = theRulerDOM.appendChild(guide);
     if (dimension === VERTICAL) {
       guide.style.left = ruler.prototype.utils.pixelize(x - options.container.getBoundingClientRect().left);
-      if (isSet) guide.style.left = ruler.prototype.utils.pixelize(Math.round(x / CUR_SCALE) + options.rulerHeight);
+      if (isSet) guide.style.left = ruler.prototype.utils.pixelize(Math.round((x - SCROLL_X) / CUR_SCALE) + options.rulerHeight);
     } else {
       guide.style.top = ruler.prototype.utils.pixelize(y - options.container.getBoundingClientRect().top);
-      if (isSet) guide.style.top = ruler.prototype.utils.pixelize(Math.round(y / CUR_SCALE) + options.rulerHeight);
+      if (isSet) guide.style.top = ruler.prototype.utils.pixelize(Math.round((y - SCROLL_Y) / CUR_SCALE) + options.rulerHeight);
     }
     guides.push({
       dimension: dimension,
@@ -186,6 +188,12 @@ ruler.prototype.builder = function () {
     }
   };
 
+  const getPos = function () {
+    return {
+      x: CUR_DELTA_X,
+      y: CUR_DELTA_Y
+    };
+  }
 
   const setPos = function (values) {
     let orgX = 0,
@@ -215,6 +223,11 @@ ruler.prototype.builder = function () {
     CUR_DELTA_X = parseInt(values.x);
     CUR_DELTA_Y = parseInt(values.y);
   };
+
+  const setScroll = function (values) {
+    SCROLL_X = values.x;
+    SCROLL_Y = values.y;
+  }
 
   const setScale = function (newScale) {
     let curPos, orgDelta, curScaleFac;
@@ -271,8 +284,8 @@ ruler.prototype.builder = function () {
   const getGuides = function () {
     return guides.map(function (guide) {
       return {
-        posX: Math.round((parseInt(guide.line.guideLine.style.left) - options.rulerHeight) * CUR_SCALE),
-        posY: Math.round((parseInt(guide.line.guideLine.style.top) - options.rulerHeight) * CUR_SCALE),
+        posX: Math.round((parseInt(guide.line.guideLine.style.left) - options.rulerHeight) * CUR_SCALE + SCROLL_X),
+        posY: Math.round((parseInt(guide.line.guideLine.style.top) - options.rulerHeight) * CUR_SCALE + SCROLL_Y),
         dimension: guide.dimension
       }
     });
@@ -302,7 +315,9 @@ ruler.prototype.builder = function () {
   return {
     VERTICAL: VERTICAL,
     HORIZONTAL: HORIZONTAL,
+    getPos: getPos,
     setPos: setPos,
+    setScroll: setScroll,
     setScale: setScale,
     clearGuides: clearGuides,
     getGuides: getGuides,
