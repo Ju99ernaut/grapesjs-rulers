@@ -28,24 +28,14 @@ export default (editor, opts = {}) => {
         strokeStyle: 'white',
         fillStyle: 'white',
         ...options.rulerOpts
-      })) && editor.on('canvasScroll frame:scroll', () => {
-        //change:canvasOffset in future allow canvas positioning ad scaling
-        const y = top - rulH - (editor.Canvas.getBody().scrollTop / scale);
-        rulers.api.setPos({
-          y
-        });
+      })) && editor.on('canvasScroll frame:scroll change:canvasOffset', () => {
+        setOffset();
       });
+      editor.Rulers = rulers;
       rulers.api.toggleRulerVisibility(true);
       editor.Canvas.setZoom(zoom);
       editor.setDragMode(options.dragMode);
-      const {
-        top,
-        left
-      } = editor.Canvas.getOffset();
-      rulers.api.setPos({
-        x: left - rulH,
-        y: top - rulH
-      });
+      setOffset();
       rulers.api.setScale(scale);
     },
     stop(editor) {
@@ -54,6 +44,23 @@ export default (editor, opts = {}) => {
       editor.setDragMode('');
     }
   });
+
+  const setOffset = () => {
+    const {
+      top,
+      left
+    } = editor.Canvas.getOffset();
+    const scrollX = editor.Canvas.getBody().scrollLeft / scale;
+    const scrollY = editor.Canvas.getBody().scrollTop / scale;
+    rulers.api.setPos({
+      x: left - rulH - scrollX,
+      y: top - rulH - scrollY
+    });
+    rulers.api.setScroll({
+      x: scrollX,
+      y: scrollY
+    });
+  }
 
   cm.add('guides-visibility', {
     run() {
@@ -69,7 +76,8 @@ export default (editor, opts = {}) => {
   });
 
   cm.add('get-guides', () => {
-    return rulers.api.getGuides();
+    if (rulers) return rulers.api.getGuides();
+    else return 0;
   });
 
   cm.add('set-guides', (editor, sender, options = {}) => {
@@ -80,14 +88,7 @@ export default (editor, opts = {}) => {
     zoom = options.zoom;
     scale = 100 / zoom;
     editor.Canvas.setZoom(zoom);
-    const {
-      top,
-      left
-    } = editor.Canvas.getOffset();
-    rulers.api.setPos({
-      x: left - rulH,
-      y: top - rulH
-    });
+    setOffset();
     rulers && rulers.api.setScale(scale);
   });
 
