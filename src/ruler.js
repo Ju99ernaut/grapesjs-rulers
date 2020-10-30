@@ -45,7 +45,6 @@ ruler.prototype.builder = function () {
     curRuler.canvas.style.OTransformOrigin = origin;
     curRuler.canvas.style.msTransformOrigin = origin;
     curRuler.canvas.style.transformOrigin = origin;
-
   };
 
   const positionRuler = function (curRuler, alignment) {
@@ -65,7 +64,6 @@ ruler.prototype.builder = function () {
   const attachListeners = function (container, curRul) {
     const mousedown = function (e) {
       constructGuide(curRul.dimension, e.clientX, e.clientY, e);
-
     };
 
     curRul.canvas.addEventListener('mousedown', mousedown);
@@ -94,7 +92,6 @@ ruler.prototype.builder = function () {
         });
         line.destroy();
         guides.splice(guideIndex, 1);
-
       }
     };
 
@@ -124,7 +121,6 @@ ruler.prototype.builder = function () {
       rulerStyle = dimension === VERTICAL ? 'rul_ruler_Vertical' : 'rul_ruler_Horizontal',
       element = document.createElement('canvas');
 
-
     ruler.prototype.utils.addClasss(element, ['rul_ruler', rulerStyle, 'rul_align_' + alignment]);
     canvas = container.appendChild(element);
     rulerz[alignment] = ruler.prototype.rulerConstructor(canvas, options, dimension);
@@ -143,7 +139,6 @@ ruler.prototype.builder = function () {
       corner.style.width = ruler.prototype.utils.pixelize(options.rulerHeight + 1);
       corner.style.height = ruler.prototype.utils.pixelize(options.rulerHeight);
       return container.appendChild(corner);
-
     }
 
     function mousedown(e) {
@@ -159,7 +154,6 @@ ruler.prototype.builder = function () {
           corner.removeEventListener('mousedown', mousedown);
           corner.parentNode.removeChild(corner);
         };
-
         corners.push(corner);
       })
     }
@@ -181,8 +175,6 @@ ruler.prototype.builder = function () {
     });
     constructCorner(theRulerDOM, options.cornerSides);
     options.container.addEventListener('mouseup', mouseup);
-
-
   };
 
   const forEachRuler = function (cb) {
@@ -222,7 +214,6 @@ ruler.prototype.builder = function () {
     });
     CUR_DELTA_X = parseInt(values.x);
     CUR_DELTA_Y = parseInt(values.y);
-
   };
 
   const setScale = function (newScale) {
@@ -275,27 +266,25 @@ ruler.prototype.builder = function () {
       trackers[0].style.display = state;
       trackers[1].style.display = state;
     }
-
   };
 
   const getGuides = function () {
     return guides.map(function (guide) {
       return {
-        posX: Math.round((parseInt(guide.line.guideLine.style.left) - CUR_DELTA_X - options.rulerHeight) * CUR_SCALE),
-        posY: Math.round((parseInt(guide.line.guideLine.style.top) - CUR_DELTA_Y - options.rulerHeight) * CUR_SCALE),
+        posX: Math.round((parseInt(guide.line.guideLine.style.left) - options.rulerHeight) * CUR_SCALE),
+        posY: Math.round((parseInt(guide.line.guideLine.style.top) - options.rulerHeight) * CUR_SCALE),
         dimension: guide.dimension
       }
     });
   };
 
   const setGuides = function (_guides) {
-    if (!_guides) {
+    if (!_guides || !_guides.length) {
       return
     }
     _guides.forEach(function (guide) {
       constructGuide(guide.dimension, guide.posX, guide.posY, null, true)
     })
-
   };
 
   const destroy = function () {
@@ -367,8 +356,6 @@ ruler.prototype.rulerConstructor = function (_canvas, options, rulDimension) {
     context.stroke();
   };
 
-
-
   const drawPoints = function () {
     let pointLength = 0,
       label = '',
@@ -416,7 +403,6 @@ ruler.prototype.rulerConstructor = function (_canvas, options, rulDimension) {
     options.container.removeEventListener('mousemove', mousemove);
     tracker.parentNode.removeChild(tracker);
     this.clearListeners && this.clearListeners();
-
   };
 
   const initTracker = function () {
@@ -428,14 +414,12 @@ ruler.prototype.rulerConstructor = function (_canvas, options, rulDimension) {
     } else {
       tracker.style.width = height;
     }
-
     options.container.addEventListener('mousemove', mousemove);
   };
 
   if (options.enableMouseTracking) {
     initTracker();
   }
-
 
   return {
     getLength: getLength,
@@ -466,7 +450,6 @@ ruler.prototype.guideLine = function (line, _dragContainer, lineDimension, optio
     dimension = lineDimension || 2,
     moveCB = movecb || function () {};
 
-
   const curPosDelta = function (val) {
     if (typeof val === 'undefined') {
       return _curPosDelta;
@@ -487,7 +470,6 @@ ruler.prototype.guideLine = function (line, _dragContainer, lineDimension, optio
     }
     return (_curScale = val);
   };
-
 
   const draggable = (function () {
     return {
@@ -655,7 +637,6 @@ ruler.prototype.utils = {
     });
 
     return element;
-
   },
   removeClasss: function (element, classNames) {
     let curCalsss = element.className;
@@ -668,6 +649,5 @@ ruler.prototype.utils = {
     });
     element.className = curCalsss;
     return element;
-
   }
 };
