@@ -105,10 +105,10 @@ ruler.prototype.builder = function () {
     guide = theRulerDOM.appendChild(guide);
     if (dimension === VERTICAL) {
       guide.style.left = ruler.prototype.utils.pixelize(x - options.container.getBoundingClientRect().left);
-      if (isSet) guide.style.left = ruler.prototype.utils.pixelize(Math.round((x - SCROLL_X) / CUR_SCALE) + options.rulerHeight);
+      if (isSet) guide.style.left = ruler.prototype.utils.pixelize(Math.round(x / CUR_SCALE + options.rulerHeight - SCROLL_X));
     } else {
       guide.style.top = ruler.prototype.utils.pixelize(y - options.container.getBoundingClientRect().top);
-      if (isSet) guide.style.top = ruler.prototype.utils.pixelize(Math.round((y - SCROLL_Y) / CUR_SCALE) + options.rulerHeight);
+      if (isSet) guide.style.top = ruler.prototype.utils.pixelize(Math.round(y / CUR_SCALE + options.rulerHeight - SCROLL_Y));
     }
     guides.push({
       dimension: dimension,
@@ -284,8 +284,8 @@ ruler.prototype.builder = function () {
   const getGuides = function () {
     return guides.map(function (guide) {
       return {
-        posX: Math.round((parseInt(guide.line.guideLine.style.left) - options.rulerHeight) * CUR_SCALE + SCROLL_X),
-        posY: Math.round((parseInt(guide.line.guideLine.style.top) - options.rulerHeight) * CUR_SCALE + SCROLL_Y),
+        posX: Math.round((parseInt(guide.line.guideLine.style.left) - options.rulerHeight + SCROLL_X) * CUR_SCALE),
+        posY: Math.round((parseInt(guide.line.guideLine.style.top) - options.rulerHeight + SCROLL_Y) * CUR_SCALE),
         dimension: guide.dimension
       }
     });
