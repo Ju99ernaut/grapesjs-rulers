@@ -50,11 +50,11 @@ export default (editor, opts = {}) => {
       top,
       left
     } = editor.Canvas.getOffset();
-    const scrollX = editor.Canvas.getBody().scrollLeft / scale;
-    const scrollY = editor.Canvas.getBody().scrollTop / scale;
+    const scrollX = editor.Canvas.getBody().scrollLeft;
+    const scrollY = editor.Canvas.getBody().scrollTop;
     rulers.api.setPos({
-      x: left - rulH - scrollX,
-      y: top - rulH - scrollY
+      x: left - rulH - scrollX / scale,
+      y: top - rulH - scrollY / scale
     });
     rulers.api.setScroll({
       x: scrollX,
