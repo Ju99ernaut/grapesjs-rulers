@@ -1,4 +1,4 @@
-import { ruler } from './ruler';
+import Ruler from './ruler';
 
 export default (editor, opts = {}) => {
     const options = {
@@ -21,7 +21,7 @@ export default (editor, opts = {}) => {
 
     cm.add('ruler-visibility', {
         run(editor) {
-            !rulers && (rulers = new ruler({
+            !rulers && (rulers = new Ruler({
                 container: editor.Canvas.getCanvasView().el,
                 rulerHeight: rulH,
                 strokeStyle: 'white',
