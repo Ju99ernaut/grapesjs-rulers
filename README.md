@@ -132,6 +132,10 @@ panelViews.get('buttons').add([{
 }]);
 ```
 
+Disable rulers on preview
+```js
+editor.on('run:preview', () => editor.stopCommand('ruler-visibility'));
+```
 
 ## Development
 
