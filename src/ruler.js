@@ -266,6 +266,12 @@ export default class Ruler {
             guides = [];
         };
 
+        const removeGuide = (id) => {
+            const last = guides.length - 1;
+            [guides[id], guides[last]] = [guides[last], guides[id]];
+            guides.pop();
+        };
+
         const toggleGuideVisibility = (val) => {
             const func = val ? 'show' : 'hide';
             guides.forEach(function(guide) {
@@ -322,13 +328,13 @@ export default class Ruler {
             setScroll,
             setScale,
             clearGuides,
+            removeGuide,
             getGuides,
             setGuides,
             constructRulers,
             toggleRulerVisibility,
             toggleGuideVisibility,
-            destroy,
-            guides
+            destroy
         }
     }
 
@@ -602,6 +608,7 @@ export default class Ruler {
         const dblclick = (e) => {
             e.stopPropagation();
             destroy();
+            this.api.removeGuide(guideLine.dataset.id);
         };
 
         guideLine.addEventListener('mousedown', mousedown);
