@@ -65,19 +65,19 @@ export default class Ruler {
         };
 
         const attachListeners = (container, curRul) => {
-            const mousedown = function(e) {
+            const mousedown = function (e) {
                 constructGuide(curRul.dimension, e.clientX, e.clientY, e);
             };
 
             curRul.canvas.addEventListener('mousedown', mousedown);
-            curRul.clearListeners = function() {
+            curRul.clearListeners = function () {
                 curRul.canvas.removeEventListener('mousedown', mousedown);
             }
         };
 
         const constructGuide = (dimension, x, y, e, isSet) => {
             let guideIndex;
-            const moveCB = function(line, x, y) {
+            const moveCB = function (line, x, y) {
                 const coor = line.dimension === VERTICAL ? x : y;
                 if (!line.assigned()) {
                     if (coor > options.rulerHeight) {
@@ -87,7 +87,7 @@ export default class Ruler {
                 }
 
                 if (coor < options.rulerHeight) {
-                    guides.some(function(guideLine, index) {
+                    guides.some(function (guideLine, index) {
                         if (guideLine.line === line) {
                             guideIndex = index;
                             return true;
@@ -150,11 +150,11 @@ export default class Ruler {
                 clearGuides();
             }
 
-            return function(container, cornerSides) {
-                cornerSides.forEach(function(side) {
+            return function (container, cornerSides) {
+                cornerSides.forEach(function (side) {
                     const corner = cornerDraw(container, side);
                     corner.addEventListener('mousedown', mousedown);
-                    corner.destroy = function() {
+                    corner.destroy = function () {
                         corner.removeEventListener('mousedown', mousedown);
                         corner.parentNode.removeChild(corner);
                     };
@@ -165,7 +165,7 @@ export default class Ruler {
         })();
 
         const mouseup = (e) => {
-            guides.forEach(function(guide) {
+            guides.forEach(function (guide) {
                 guide.line.stopDrag();
             })
         };
@@ -174,7 +174,7 @@ export default class Ruler {
             theRulerDOM = this.utils.addClasss(theRulerDOM, 'rul_wrapper');
             options = this.utils.extend(defaultOptions, curOptions);
             theRulerDOM = options.container.appendChild(theRulerDOM);
-            options.sides.forEach(function(side) {
+            options.sides.forEach(function (side) {
                 constructRuler(theRulerDOM, side);
             });
             constructCorner(theRulerDOM, options.cornerSides);
@@ -233,7 +233,7 @@ export default class Ruler {
 
         const setScale = (newScale) => {
             let curPos, orgDelta, curScaleFac;
-            forEachRuler(function(rul) {
+            forEachRuler(function (rul) {
                 rul.context.clearRect(0, 0, rul.canvas.width, rul.canvas.height);
                 rul.context.beginPath();
                 rul.setScale(newScale);
@@ -260,7 +260,7 @@ export default class Ruler {
 
 
         const clearGuides = () => {
-            guides.forEach(function(guide) {
+            guides.forEach(function (guide) {
                 guide.line.destroy();
             });
             guides = [];
@@ -274,7 +274,7 @@ export default class Ruler {
 
         const toggleGuideVisibility = (val) => {
             const func = val ? 'show' : 'hide';
-            guides.forEach(function(guide) {
+            guides.forEach(function (guide) {
                 guide.line[func]();
             });
         };
@@ -290,7 +290,7 @@ export default class Ruler {
         };
 
         const getGuides = () => {
-            return guides.map(function(guide) {
+            return guides.map(function (guide) {
                 return {
                     posX: Math.round((parseInt(guide.line.guideLine.style.left) - options.rulerHeight + SCROLL_X) * CUR_SCALE),
                     posY: Math.round((parseInt(guide.line.guideLine.style.top) - options.rulerHeight + SCROLL_Y) * CUR_SCALE),
@@ -303,17 +303,17 @@ export default class Ruler {
             if (!_guides || !_guides.length) {
                 return
             }
-            _guides.forEach(function(guide) {
+            _guides.forEach(function (guide) {
                 constructGuide(guide.dimension, guide.posX, guide.posY, null, true)
             })
         };
 
         const destroy = () => {
             clearGuides();
-            forEachRuler(function(ruler) {
+            forEachRuler(function (ruler) {
                 ruler.destroy();
             });
-            corners.forEach(function(corner) {
+            corners.forEach(function (corner) {
                 corner.destroy();
             });
             options.container.removeEventListener('mouseup', mouseup);
@@ -414,12 +414,18 @@ export default class Ruler {
         };
 
         const mousemove = (e) => {
-            const posX = e.clientX;
-            const posY = e.clientY;
+            let x = e.clientX, y = e.clientY;
+
+            if (e.target.tagName === 'IFRAME') {
+                const zoom = getScale() ** -1;
+                x = x * zoom + e.target.getBoundingClientRect().left;
+                y = y * zoom + e.target.getBoundingClientRect().top;
+            }
+
             if (dimension === 2) {
-                tracker.style.left = this.utils.pixelize(posX - parseInt(options.container.getBoundingClientRect().left));
+                tracker.style.left = this.utils.pixelize(x - parseInt(options.container.getBoundingClientRect().left));
             } else {
-                tracker.style.top = this.utils.pixelize(posY - parseInt(options.container.getBoundingClientRect().top));
+                tracker.style.top = this.utils.pixelize(y - parseInt(options.container.getBoundingClientRect().top));
             }
         };
 
@@ -472,7 +478,7 @@ export default class Ruler {
             _curPosDelta = curDelta || 0,
             dragContainer = _dragContainer,
             dimension = lineDimension || 2,
-            moveCB = movecb || function() {};
+            moveCB = movecb || function () { };
 
         const curPosDelta = (val) => {
             if (typeof val === 'undefined') {
@@ -553,7 +559,7 @@ export default class Ruler {
                     draggable.cv().style.pointerEvents = 'all';
                     options.container.style.cursor = null;
                     guideLine.style.cursor = null;
-                    document.onmousemove = function() {};
+                    document.onmousemove = function () { };
                     hideToolTip();
                     this.utils.removeClasss(guideLine, ['rul_line_dragged']);
                 }
@@ -636,7 +642,7 @@ export default class Ruler {
 }
 
 export const utils = {
-    extend: function extend() {
+    extend() {
         for (let i = 1; i < arguments.length; i++)
             for (let key in arguments[i])
                 if (arguments[i].hasOwnProperty(key))
@@ -654,7 +660,7 @@ export const utils = {
             classNames = [classNames];
         }
 
-        classNames.forEach(function(name) {
+        classNames.forEach(function (name) {
             element.className += ' ' + name;
         });
 
@@ -666,7 +672,7 @@ export const utils = {
             classNames = [classNames];
         }
 
-        classNames.forEach(function(name) {
+        classNames.forEach(function (name) {
             curCalsss = curCalsss.replace(name, '');
         });
         element.className = curCalsss;
