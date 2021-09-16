@@ -423,9 +423,9 @@ export default class Ruler {
             }
 
             if (dimension === 2) {
-                tracker.style.left = this.utils.pixelize(x - parseInt(options.container.getBoundingClientRect().left));
+                tracker.style.left = this.utils.pixelize(x - options.container.getBoundingClientRect().left);
             } else {
-                tracker.style.top = this.utils.pixelize(y - parseInt(options.container.getBoundingClientRect().top));
+                tracker.style.top = this.utils.pixelize(y - options.container.getBoundingClientRect().top);
             }
         };
 
