@@ -6,6 +6,8 @@ export default class Ruler {
     constructor(options = {}) {
         this.api = this.builder();
         this.utils = utils;
+        this.canvasPointerEvents = options.canvas.style.pointerEvents;
+        this.options = options;
         this.api.constructRulers(options);
     }
 
@@ -503,8 +505,8 @@ export default class Ruler {
 
         const draggable = (() => {
             return {
-                cv() {
-                    return document.querySelector('.gjs-frame-wrapper')
+                cv: () => {
+                    return this.options.canvas;
                 },
                 move: (xpos, ypos) => {
                     guideLine.style.left = this.utils.pixelize(xpos);
@@ -556,7 +558,7 @@ export default class Ruler {
                     showToolTip();
                 },
                 stopMoving: () => {
-                    draggable.cv().style.pointerEvents = 'all';
+                    draggable.cv().style.pointerEvents = this.canvasPointerEvents;
                     options.container.style.cursor = null;
                     guideLine.style.cursor = null;
                     document.onmousemove = function () { };
