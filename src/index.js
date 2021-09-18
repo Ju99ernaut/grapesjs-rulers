@@ -23,6 +23,7 @@ export default (editor, opts = {}) => {
         run(editor) {
             !rulers && (rulers = new Ruler({
                 container: editor.Canvas.getCanvasView().el,
+                canvas: editor.Canvas.getFrameEl(),
                 rulerHeight: rulH,
                 strokeStyle: 'white',
                 fillStyle: 'white',
@@ -65,6 +66,14 @@ export default (editor, opts = {}) => {
         stop() {
             rulers && rulers.api.toggleGuideVisibility(false);
         }
+    });
+
+    cm.add('get-rulers', () => {
+        return rulers;
+    });
+
+    cm.add('get-rulers-constructor', () => {
+        return Ruler;
     });
 
     cm.add('clear-guides', () => {
