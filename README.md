@@ -40,6 +40,8 @@ body, html {
 
 * Plugin name: `grapesjs-rulers`
 * Commands
+    * `get-rulers-constructor`
+    * `get-rulers` - get rulers object
     * `ruler-visibility` - toggle ruler visibility
     * `guides-visibility` - toggle guides visibility
     * `clear-guides`
