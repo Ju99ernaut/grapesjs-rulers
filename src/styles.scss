@@ -33,13 +33,17 @@
 .rul_corner {
     pointer-events: all;
     position: absolute;
-    background-color: white;
+    background-color: lightgray;
     z-index: 1010;
     cursor: pointer;
+    font-size: 0.75rem;
+    color: #000;
+    text-align: center;
 }
 
 .rul_corner:hover {
     background-color: lightgray;
+    color: red;
 }
 
 .rul_cornerTL {
