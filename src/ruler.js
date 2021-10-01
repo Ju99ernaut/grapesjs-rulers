@@ -141,7 +141,7 @@ export default class Ruler {
                     cornerStyle = 'rul_corner' + side.toUpperCase();
 
                 corner.title = 'Clear Guide lines';
-                this.utils.addClasss(corner, ['rul_corner fa fa-trash', cornerStyle]);
+                this.utils.addClasss(corner, ['rul_corner', cornerStyle, options.cornerIcon]);
                 corner.style.width = this.utils.pixelize(options.rulerHeight + 1);
                 corner.style.height = this.utils.pixelize(options.rulerHeight);
                 corner.style.lineHeight = this.utils.pixelize(options.rulerHeight);

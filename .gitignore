@@ -1,5 +1,6 @@
 .DS_Store
 private/
+.vscode/settings.json
 /locale
 node_modules/
 *.log
