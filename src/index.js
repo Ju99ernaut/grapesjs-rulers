@@ -27,6 +27,7 @@ export default (editor, opts = {}) => {
                 rulerHeight: rulH,
                 strokeStyle: 'white',
                 fillStyle: 'white',
+                cornerIcon: 'fa fa-trash',
                 ...options.rulerOpts
             })) && editor.on('canvasScroll frame:scroll change:canvasOffset', () => {
                 setOffset();
